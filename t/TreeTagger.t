@@ -1,6 +1,8 @@
 #!/usr/bin/perl
 
-use Test::More tests => 17;
+use Test::More tests => 16;
+
+use Lingua::TreeTagger::ConfigData;
 
 use File::Temp qw();
 
@@ -31,8 +33,10 @@ like(
     'constructor correctly croaks when language has no parameter file'
 );
 
+my $test_language = Lingua::TreeTagger::ConfigData->config( 'test_language' );
+
 my $tagger = Lingua::TreeTagger->new(
-    'language' => 'English',           # automatically converted to lowercase...
+    'language' => $test_language,
     'options'  => [ qw( -token -lemma -no-unknown ) ],
 );
 
@@ -55,10 +59,11 @@ ok(
     'path to TreeTagger\'s parameter files correctly configured'
 );
 
-ok(
-    -e $tagger->_abbreviation_file(),
-    'path to TreeTagger\'s abbreviation files correctly configured'
-);
+# Not sure if every language has an abbreviation file...
+#ok(
+#    -e $tagger->_abbreviation_file(),
+#    'path to TreeTagger\'s abbreviation files correctly configured'
+#);
 
 eval {
     $tagger->tag_file();

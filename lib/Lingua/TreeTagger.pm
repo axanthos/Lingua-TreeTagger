@@ -16,18 +16,14 @@ our $VERSION = '0.01';
 # Initialization.
 #===============================================================================
 
-our $_treetagger_base_path
-    = dir( Lingua::TreeTagger::ConfigData->config( 'treetagger_base_path' ) );
+our $_treetagger_lib_path
+    = dir( Lingua::TreeTagger::ConfigData->config( 'treetagger_lib_path' ) );
 
-our $_treetagger_prog_path = file(
-    $_treetagger_base_path,
-    '/bin/tree-tagger' . ( $^O eq 'MSWin32' ? '.exe' : q{} )
-);
+our $_treetagger_prog_path
+    = file( Lingua::TreeTagger::ConfigData->config( 'treetagger_prog_path' ) );
 
-our $_tokenizer_prog_path  = file(
-    $_treetagger_base_path,
-    '/cmd/tokenize.pl'
-);
+our $_tokenizer_prog_path
+    = file( Lingua::TreeTagger::ConfigData->config( 'tokenizer_prog_path' ) );
 
 
 #===============================================================================
@@ -80,8 +76,8 @@ has '_parameter_file' => (
       default   => sub {
           my $self = shift;
           return file(
-              $_treetagger_base_path,
-              '/lib/' . $self->language() . '.par'
+              $_treetagger_lib_path,
+              $self->language() . '.par'
           );
       }
 );
@@ -93,8 +89,8 @@ has '_abbreviation_file' => (
       default   => sub {
           my $self = shift;
           return file(
-              $_treetagger_base_path,
-              '/lib/' . $self->language() . '-abbreviations'
+              $_treetagger_lib_path,
+              $self->language() . '-abbreviations'
           );
       }
 );
