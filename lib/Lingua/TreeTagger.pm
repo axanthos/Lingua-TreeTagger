@@ -546,7 +546,7 @@ L<Lingua::TreeTagger::TaggedText> (version 0.01), L<Lingua::TreeTagger::Token>
 (version 0.01), and Lingua::TreeTagger::ConfigData (automatically generated
 during the installation procedure).
 
-This module requires module L<Moose> and was developed using version 1.09.
+This module requires module Moose and was developed using version 1.09.
 Please report incompatibilities with earlier versions to the author.
 
 Also required are modules L<File::Temp> (version 0.19 or later) and

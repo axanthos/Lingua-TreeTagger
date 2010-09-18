@@ -2,7 +2,7 @@ use strict;
 use warnings;
 use Module::Build;
 use File::Which;
-use Path::Class;
+use File::Spec;
 
 my $builder = Module::Build->new(
     module_name         => 'Lingua::TreeTagger',
@@ -10,7 +10,7 @@ my $builder = Module::Build->new(
     dist_author         => q{Aris Xanthos <aris.xanthos@unil.ch>},
     dist_version_from   => 'lib/Lingua/TreeTagger.pm',
     configure_requires => {
-        'Path::Class'   => 0,
+        'File::Spec'    => 0,
         'File::Which'   => 0,
     },
     build_requires => {
@@ -20,15 +20,22 @@ my $builder = Module::Build->new(
     requires => {
         'Moose'         => 0,
         'Path::Class'   => 0,
-        'File::Temp'    => 0,
+        'File::Temp'    => 0.19,
     },
 );
 
 my ( $treetagger_base_path, $treetagger_prog_path, $tokenizer_prog_path );
 my ( $treetagger_lib_path, $test_language );
 
-# Try to find the TreeTagger executable in PATH.
-$treetagger_prog_path = which( 'tree-tagger' );
+# Check if File::Which is installed...
+eval { require File::Which; };
+
+# If File::Which is installed, try to find the TreeTagger executable in PATH.
+if ( ! $@ ) {
+
+    use File::Which;
+    $treetagger_prog_path = which( 'tree-tagger' );
+}
 
 # If TreeTagger was found in PATH...
 if ( defined $treetagger_prog_path ) {
@@ -86,7 +93,7 @@ if ( ! defined $treetagger_prog_path ) {
 }
 
 # Get path to TreeTagger base directory from program path.
-$treetagger_base_path = $treetagger_prog_path->parent()->parent();
+$treetagger_base_path = parent( parent( $treetagger_prog_path ) );
 
 my @installed_parameter_files;
 
@@ -195,4 +202,19 @@ sub get_installed_parameter_files {
     return @parameter_files;
 }
 
+# Replacement for Path::Class methods -- until it becomes a standard module...
+
+sub file {
+    return File::Spec->catfile( split( qr{[\\/]}, shift @_ ), @_ );
+}
+
+sub dir {
+    return File::Spec->catdir( split( qr{[\\/]}, shift @_ ), @_ );
+}
+
+sub parent {
+    my @path_elements = split qr{[\\/]}, shift @_;
+    splice @path_elements, -1;
+    return File::Spec->catdir( @path_elements );
+}
 

@@ -627,7 +627,7 @@ This module is part of the Lingua::TreeTagger distribution. It is not intended
 to be used as an independent module. In particular, it uses module
 L<Lingua::TreeTagger::Token>, version 0.01.
 
-It requires module L<Moose> and was developed using version 1.09. Please
+It requires module Moose and was developed using version 1.09. Please
 report incompatibilities with earlier versions to the author.
 
 =head1 BUGS AND LIMITATIONS
@@ -644,7 +644,7 @@ L<as_XML()> use this internally to determine whether token attributes requested
 to appear in their output are actually available for this TaggedText object.
 This results in a tight coupling of the TaggedText and TreeTagger classes, which
 is obviously not desirable. In a future version, I expect to implement a better
-solution based on L<Moose>'s introspection capabilities
+solution based on Moose's introspection capabilities
 
 =head1 AUTHOR
 

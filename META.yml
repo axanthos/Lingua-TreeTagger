@@ -1,0 +1,34 @@
+---
+abstract: 'Using TreeTagger from Perl'
+author:
+  - 'Aris Xanthos <aris.xanthos@unil.ch>'
+build_requires:
+  File::Temp: 0.19
+  Test::More: 0
+configure_requires:
+  File::Spec: 0
+  File::Which: 0
+  Module::Build: 0.36
+generated_by: 'Module::Build version 0.3607'
+license: gpl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Lingua-TreeTagger
+provides:
+  Lingua::TreeTagger:
+    file: lib/Lingua/TreeTagger.pm
+    version: 0.01
+  Lingua::TreeTagger::TaggedText:
+    file: lib/Lingua/TreeTagger/TaggedText.pm
+    version: 0.01
+  Lingua::TreeTagger::Token:
+    file: lib/Lingua/TreeTagger/Token.pm
+    version: 0.01
+requires:
+  File::Temp: 0.19
+  Moose: 0
+  Path::Class: 0
+resources:
+  license: http://opensource.org/licenses/gpl-license.php
+version: 0.01

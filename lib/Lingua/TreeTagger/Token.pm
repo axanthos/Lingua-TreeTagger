@@ -204,7 +204,7 @@ attribute.
 This module is part of the Lingua::TreeTagger distribution. It is not intended
 to be used as an independent module.
 
-It requires module L<Moose> and was developed using version 1.09. Please
+It requires module Moose and was developed using version 1.09. Please
 report incompatibilities with earlier versions to the author.
 
 =head1 BUGS AND LIMITATIONS
