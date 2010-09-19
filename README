@@ -25,7 +25,12 @@ SUPPORT AND DOCUMENTATION
 After installing, you can find documentation for this module with the
 perldoc command.
 
-    perldoc TreeTagger
+    perldoc Lingua::TreeTagger
+
+See also:
+
+    perldoc Lingua::TreeTagger::TaggedText
+    perldoc Lingua::TreeTagger::Token
 
 You can also look for information at:
 
