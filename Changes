@@ -5,3 +5,6 @@ Revision history for TreeTagger
 
         September 18, 2010
         Fixed installation issues (essentially removed Build.PL dependencies).
+        
+0.02    Slight revision of the documentation (fixed an error in the Synopsis
+        and made a few cosmetic changes).

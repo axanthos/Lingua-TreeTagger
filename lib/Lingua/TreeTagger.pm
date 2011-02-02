@@ -9,7 +9,7 @@ use Carp;
 use Lingua::TreeTagger::TaggedText;
 use Lingua::TreeTagger::ConfigData;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 
 #===============================================================================
@@ -360,7 +360,7 @@ Lingua::TreeTagger - Using TreeTagger from Perl
 
 =head1 VERSION
 
-This documentation refers to Lingua::TreeTagger version 0.01.
+This documentation refers to Lingua::TreeTagger version 0.02.
 
 =head1 SYNOPSIS
 
@@ -389,15 +389,35 @@ This documentation refers to Lingua::TreeTagger version 0.01.
     print $tagged_text->as_XML();
     
     # Token objects may be accessed directly for more specific purposes.
-    foreach my $token ( $tagged_text->tokens() ) {
-        print $token->original(), '|', $token->tag(), "\n";
+    foreach my $token ( @{ $tagged_text->sequence() } ) {
+
+        # A token may contain a single SGML tag...
+        if ( $token->is_SGML_tag() ) {
+            print 'An SGML tag: ', $token->tag(), "\n";
+        }
+
+        # ... or a part-of-speech tag.
+        else {
+            print 'A part-of-speech tag: ', $token->tag(), "\n";
+
+            # In the latter case, the token may also have attributes specifying
+            # the original string...
+            if ( defined $token->original() ) {
+                print '  token: ', $token->original(), "\n";
+            }
+
+            # ... or the corresponding lemma.
+            if ( defined $token->lemma() ) {
+                print '  lemma: ', $token->lemma(), "\n";
+            }
+        }
     }
 
 =head1 DESCRIPTION
 
 This Perl module provides a simple object-oriented interface to the TreeTagger
 part-of-speech tagger created by Helmut Schmid. See also
-L<Lingua::TreeTagger:TaggedText> and L<Lingua::TreeTagger:Token>.
+L<Lingua::TreeTagger::TaggedText> and L<Lingua::TreeTagger::Token>.
 
 =head1 METHODS
 
@@ -581,13 +601,18 @@ channel between this module and the TreeTagger executable.
 
 Finally, note that the module does not support unicode (yet).
 
+=head1 ACKNOWLEDGEMENTS
+
+The author is grateful to Alberto Manuel Brandão Simões, Christelle Cocco,
+Yannis Haralambous, and Andrew Zappella for their useful feedback.
+
 =head1 AUTHOR
 
 Aris Xanthos  (aris.xanthos@unil.ch)
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2010 Aris Xanthos (aris.xanthos@unil.ch).
+Copyright (c) 2010-2011 Aris Xanthos (aris.xanthos@unil.ch).
 
 This program is released under the GPL license (see
 L<http://www.gnu.org/licenses/gpl.html>).
