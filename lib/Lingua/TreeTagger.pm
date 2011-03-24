@@ -9,7 +9,7 @@ use Carp;
 use Lingua::TreeTagger::TaggedText;
 use Lingua::TreeTagger::ConfigData;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 
 #===============================================================================
@@ -282,11 +282,11 @@ sub _tag_with_default_tokenizer {
     }
 
     # If there is an abbreviation file for this language...
-    if ( -e "$self->_abbreviation_file" ) {
+    if ( -e $self->_abbreviation_file() ) {
 
         # Set the tokenizer's abbreviation file option.
         $abbreviation_file_option =
-            q{-a } . _quote( "$self->_abbreviation_file" );
+            q{-a } . _quote( $self->_abbreviation_file() );
     }
 
     # Push command elements into a list to be joined later.
@@ -311,7 +311,7 @@ sub _tag_with_default_tokenizer {
 
 
 #-------------------------------------------------------------------------------
-# Method _tag_with_default_tokenizer
+# Method _tag_with_custom_tokenizer
 #-------------------------------------------------------------------------------
 # Synopsis:      Tokenizes the content of a string with a custom subroutine
 #                provided by the user, and tags this text.

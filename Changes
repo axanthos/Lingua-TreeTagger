@@ -8,3 +8,6 @@ Revision history for TreeTagger
         
 0.02    Slight revision of the documentation (fixed an error in the Synopsis
         and made a few cosmetic changes).
+        
+0.03    Fixed a bug which prevented the use of abbreviation files with default
+        tokenizer.

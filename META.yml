@@ -18,7 +18,7 @@ name: Lingua-TreeTagger
 provides:
   Lingua::TreeTagger:
     file: lib/Lingua/TreeTagger.pm
-    version: 0.02
+    version: 0.03
   Lingua::TreeTagger::TaggedText:
     file: lib/Lingua/TreeTagger/TaggedText.pm
     version: 0.01
