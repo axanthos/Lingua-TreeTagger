@@ -5,22 +5,23 @@ use File::Which;
 use File::Spec;
 
 my $builder = Module::Build->new(
-    module_name         => 'Lingua::TreeTagger',
-    license             => 'gpl',
-    dist_author         => q{Aris Xanthos <aris.xanthos@unil.ch>},
-    dist_version        => '0.03',
+    module_name             => 'Lingua::TreeTagger',
+    license                 => 'gpl',
+    dist_author             => q{Aris Xanthos <aris.xanthos@unil.ch>},
+    dist_version            => '0.04',
     configure_requires => {
-        'File::Spec'    => 0,
-        'File::Which'   => 0,
+        'File::Spec'        => 0,
+        'File::Which'       => 0,
     },
     build_requires => {
-        'Test::More'    => 0,
-        'File::Temp'    => 0.19,
+        'Test::More'        => 0,
+        'Test::More::UTF8'  => 0,
+        'File::Temp'        => 0.19,
     },
     requires => {
-        'Moose'         => 0,
-        'Path::Class'   => 0,
-        'File::Temp'    => 0.19,
+        'Moose'             => 0,
+        'Path::Class'       => 0,
+        'File::Temp'        => 0.19,
     },
 );
 

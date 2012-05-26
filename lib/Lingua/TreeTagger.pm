@@ -9,7 +9,7 @@ use Carp;
 use Lingua::TreeTagger::TaggedText;
 use Lingua::TreeTagger::ConfigData;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 
 #===============================================================================
@@ -58,6 +58,13 @@ has 'language'  => (
       trigger   => \&_validate_language,
 );
 
+has 'use_utf8'  => (
+      is        => 'ro',
+      isa       => 'Bool',
+      default   => undef,
+      trigger   => \&_setup_utf8,
+);
+
 has 'options'   => (
       is        => 'ro',
       isa       => 'ArrayRef[treetagger_option]',
@@ -75,10 +82,9 @@ has '_parameter_file' => (
       lazy      => 1,
       default   => sub {
           my $self = shift;
-          return file(
-              $_treetagger_lib_path,
-              $self->language() . '.par'
-          );
+          my $paramfile = $self->language();
+          $paramfile .= $self->use_utf8 ? '-utf8' : '';
+          return file( $_treetagger_lib_path, $paramfile . '.par' );
       }
 );
 
@@ -88,10 +94,9 @@ has '_abbreviation_file' => (
       lazy      => 1,
       default   => sub {
           my $self = shift;
-          return file(
-              $_treetagger_lib_path,
-              $self->language() . '-abbreviations'
-          );
+          my $abbrfile = $self->language() . '-abbreviations';
+          $abbrfile .= $self->use_utf8 ? '-utf8' : '';
+          return file( $_treetagger_lib_path, $abbrfile );
       }
 );
 
@@ -156,6 +161,9 @@ sub tag_text {
 
         # Save the text in a temporary file.
         my $temp_file_handle = File::Temp->new();
+        if( $self->use_utf8 ) {
+            binmode( $temp_file_handle, ':encoding(UTF-8)' );
+        }
         print $temp_file_handle $$text_ref;
         
         # Tokenize and tag text, return the result as a new TaggedText object.
@@ -188,7 +196,7 @@ sub tag_text {
 #-------------------------------------------------------------------------------
 
 sub _run_treetagger {
-    my ( @command_array ) = @_;
+    my ( $self, @command_array ) = @_;
 
     my $command_output_handle;
 
@@ -200,6 +208,9 @@ sub _run_treetagger {
     ) || croak "Couldn't fork: $!\n";
 
     # Get the result and close the command output handle.
+    if( $self->use_utf8 ) {
+        binmode( $command_output_handle, ':encoding(UTF-8)' );
+    }
     my @tagged_lines = <$command_output_handle>;
     close $command_output_handle;
 
@@ -255,6 +266,27 @@ sub _validate_language {
 
 
 #-------------------------------------------------------------------------------
+# Method _setup_utf8
+#-------------------------------------------------------------------------------
+# Synopsis:      Changes the default tokenizer based on the use_utf8 attribute.
+# Arguments:     A string containing the value of the use_utf8 attribute.
+# Return values: None.
+#-------------------------------------------------------------------------------
+
+sub _setup_utf8 {
+    my ( $self, $use_utf8 ) = @_;
+    # Change the default tokenizer program path to the UTF-8 version
+    # if necessary.
+    if ( $use_utf8 && $_tokenizer_prog_path->basename eq 'tokenize.pl' ) {
+        my $utf8_tokenizer = file(
+            $_tokenizer_prog_path->dir, 'utf8-tokenize.perl'
+        );
+        $_tokenizer_prog_path = $utf8_tokenizer;
+    }
+}
+
+
+#-------------------------------------------------------------------------------
 # Method _tag_with_default_tokenizer
 #-------------------------------------------------------------------------------
 # Synopsis:      Tokenizes a file's content with TreeTagger's default tokenizer
@@ -304,7 +336,7 @@ sub _tag_with_default_tokenizer {
     );
 
     # Execute the command (i.e. tag).
-    my $tagged_lines_ref = _run_treetagger( @command_array );
+    my $tagged_lines_ref = $self->_run_treetagger( @command_array );
 
     return Lingua::TreeTagger::TaggedText->new( $tagged_lines_ref, $self );
 }
@@ -337,7 +369,7 @@ sub _tag_with_custom_tokenizer {
     );
 
     # Execute the command (i.e. tag).
-    my $tagged_lines_ref = _run_treetagger( @command_array );
+    my $tagged_lines_ref = $self->_run_treetagger( @command_array );
 
     return Lingua::TreeTagger::TaggedText->new( $tagged_lines_ref, $self );
 }
@@ -360,7 +392,7 @@ Lingua::TreeTagger - Using TreeTagger from Perl
 
 =head1 VERSION
 
-This documentation refers to Lingua::TreeTagger version 0.02.
+This documentation refers to Lingua::TreeTagger version 0.04.
 
 =head1 SYNOPSIS
 
@@ -437,9 +469,16 @@ corresponding TreeTagger parameter files have to be installed by the user.
 
 =back
 
-Two optional named parameters may be passed to the constructor:
+Three optional named parameters may be passed to the constructor:
 
 =over 4
+
+=item C<use_utf8>
+
+A boolean flag indicating that the utf-8 version of the parameter file should
+be used. This also enables use of Unicode strings internally, use of the utf8
+tokenizer by default, and use of the utf8 abbreviations file (if present) for
+tokenization.
 
 =item C<options>
 
@@ -599,12 +638,13 @@ does not seem to work on Windows), or (iii) help the author find out how to use
 a module such as L<IPC::Open2> to open a permanent two-ways communication
 channel between this module and the TreeTagger executable.
 
-Finally, note that the module does not support unicode (yet).
-
 =head1 ACKNOWLEDGEMENTS
 
 The author is grateful to Alberto Manuel Brandão Simões, Christelle Cocco,
 Yannis Haralambous, and Andrew Zappella for their useful feedback.
+
+Also a warm thank you to Tara Andrews who provided a patch for adding unicode
+support to the module.
 
 =head1 AUTHOR
 
@@ -612,7 +652,7 @@ Aris Xanthos  (aris.xanthos@unil.ch)
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2010-2011 Aris Xanthos (aris.xanthos@unil.ch).
+Copyright (c) 2010-2012 Aris Xanthos (aris.xanthos@unil.ch).
 
 This program is released under the GPL license (see
 L<http://www.gnu.org/licenses/gpl.html>).

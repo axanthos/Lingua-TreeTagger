@@ -5,6 +5,7 @@ author:
 build_requires:
   File::Temp: 0.19
   Test::More: 0
+  Test::More::UTF8: 0
 configure_requires:
   File::Spec: 0
   File::Which: 0
@@ -18,7 +19,7 @@ name: Lingua-TreeTagger
 provides:
   Lingua::TreeTagger:
     file: lib/Lingua/TreeTagger.pm
-    version: 0.03
+    version: 0.04
   Lingua::TreeTagger::TaggedText:
     file: lib/Lingua/TreeTagger/TaggedText.pm
     version: 0.01
@@ -31,4 +32,4 @@ requires:
   Path::Class: 0
 resources:
   license: http://opensource.org/licenses/gpl-license.php
-version: 0.02
+version: 0.04

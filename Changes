@@ -1,13 +1,18 @@
 Revision history for TreeTagger
 
-0.01    September 11, 2010
+0.01    2010-09-11
         First version, released on an unsuspecting world.
 
-        September 18, 2010
+        2010-09-18
         Fixed installation issues (essentially removed Build.PL dependencies).
         
-0.02    Slight revision of the documentation (fixed an error in the Synopsis
+0.02    2011-02-02
+        Slight revision of the documentation (fixed an error in the Synopsis
         and made a few cosmetic changes).
         
-0.03    Fixed a bug which prevented the use of abbreviation files with default
+0.03    2011-03-24
+        Fixed a bug which prevented the use of abbreviation files with default
         tokenizer.
+        
+0.04    2012-05-26
+        Added unicode support thanks to a patch submitted by Tara Andrews

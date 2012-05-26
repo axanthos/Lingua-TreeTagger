@@ -10,4 +10,5 @@ t/TaggedText.t
 t/Token.t
 t/pod-coverage.t
 t/pod.t
+t/utf8.t
 META.yml
