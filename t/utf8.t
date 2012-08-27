@@ -14,11 +14,15 @@ use File::Temp qw();
 my $utf8_test_lang = 'french';
 my $testparamfile = file( $Lingua::TreeTagger::_treetagger_lib_path, 
     $utf8_test_lang . '-utf8.par' );
-if( -e $testparamfile ) {
+my $testtokenizer = file( $Lingua::TreeTagger::_tokenizer_prog_path, 
+    'utf8-tokenize.perl' );
+if( -e $testparamfile && -e $testtokenizer ) {
     plan tests => 14;
 }
 else {
-    plan skip_all => 'Need french-utf8 parameter files installed to test utf8';
+    plan skip_all => 'Need french-utf8 parameter files and utf8 tokenizer '
+                   . 'installed to test utf8'
+                   ;
 }
 
 

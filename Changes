@@ -16,3 +16,7 @@ Revision history for TreeTagger
         
 0.04    2012-05-26
         Added unicode support thanks to a patch submitted by Tara Andrews
+        
+0.05    2012-08-27
+        Fixed a bug in t\utf8.t which prevented build and install when the
+        utf8 tokenizer script wasn't available (thanks Alberto Simoes!).
