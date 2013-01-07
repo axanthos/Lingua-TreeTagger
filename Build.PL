@@ -8,7 +8,7 @@ my $builder = Module::Build->new(
     module_name             => 'Lingua::TreeTagger',
     license                 => 'gpl',
     dist_author             => q{Aris Xanthos <aris.xanthos@unil.ch>},
-    dist_version            => '0.05',
+    dist_version            => '0.06',
     configure_requires => {
         'File::Spec'        => 0,
         'File::Which'       => 0,
@@ -28,15 +28,7 @@ my $builder = Module::Build->new(
 my ( $treetagger_base_path, $treetagger_prog_path, $tokenizer_prog_path );
 my ( $treetagger_lib_path, $test_language );
 
-# Check if File::Which is installed...
-eval { require File::Which; };
-
-# If File::Which is installed, try to find the TreeTagger executable in PATH.
-if ( ! $@ ) {
-
-    use File::Which;
-    $treetagger_prog_path = which( 'tree-tagger' );
-}
+$treetagger_prog_path = which( 'tree-tagger' );
 
 # If TreeTagger was found in PATH...
 if ( defined $treetagger_prog_path ) {
@@ -88,7 +80,7 @@ if ( ! defined $treetagger_prog_path ) {
             "Please enter the full path to the TreeTagger executable:"
         );
     }
-    
+
     # Then store the prompted path.
     $treetagger_prog_path = file( $prompted_treetagger_prog_path );
 }
@@ -107,6 +99,14 @@ if ( -d dir( $treetagger_base_path, 'lib' ) ) {
     # Try to find TreeTagger parameters file in there...
     @installed_parameter_files
         = get_installed_parameter_files( $treetagger_lib_path );
+
+    if (!@installed_parameter_files) {
+        # Try to guess where Lingua::TreeTagger::Installer would put them
+        my $p = $builder->install_destination('lib');
+        $treetagger_lib_path = dir ( $p, 'treetagger');
+        @installed_parameter_files
+          = get_installed_parameter_files( $treetagger_lib_path );
+    }
 }
 
 # If there is no parameter file...
@@ -128,11 +128,11 @@ if ( @installed_parameter_files == 0 ) {
         $prompted_treetagger_lib_path = Module::Build->prompt(
             "Please enter the full path to the TreeTagger 'lib' directory:"
         );
-        
+
         @installed_parameter_files
             = get_installed_parameter_files( $prompted_treetagger_lib_path );
     }
-    
+
     # Then store the prompted path.
     $treetagger_lib_path = $prompted_treetagger_lib_path;
 
@@ -153,6 +153,12 @@ $test_language =~ s/\.par//;
 # Set default path for script tokenize.pl.
 my $default_tokenizer_prog_path
     = file( $treetagger_base_path, 'cmd', 'tokenize.pl' );
+
+if (!-e $default_tokenizer_prog_path) {
+    # try to guess where Lingua::TreeTagger::Installer would put it
+    my $p = $builder->install_destination("bin");
+    $default_tokenizer_prog_path = file($p, 'treetagger', 'tokenize.pl');
+}
 
 # If tokenize.pl is at that location...
 if ( -e $default_tokenizer_prog_path ) {
@@ -199,7 +205,7 @@ sub get_installed_parameter_files {
     # Open directory and retrieve parameter files...
     opendir( my $lib_dir, $treetagger_lib_path );
     my @parameter_files = grep { /\.par$/ } readdir( $lib_dir );
-    
+
     return @parameter_files;
 }
 
@@ -218,4 +224,5 @@ sub parent {
     splice @path_elements, -1;
     return File::Spec->catdir( @path_elements );
 }
+
 

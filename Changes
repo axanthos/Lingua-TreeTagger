@@ -20,3 +20,8 @@ Revision history for TreeTagger
 0.05    2012-08-27
         Fixed a bug in t\utf8.t which prevented build and install when the
         utf8 tokenizer script wasn't available (thanks Alberto Simoes!).
+        
+0.06    2013-01-07
+        Applied a patch provided by Alberto Simoes (thanks again!) in order
+        for the module's Build.PL to detect files where
+        Lingua::TreeTagger::Installer puts them.
