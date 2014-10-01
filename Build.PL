@@ -19,7 +19,7 @@ my $builder = Module::Build->new(
         'File::Temp'        => 0.19,
     },
     requires => {
-        'Moose'             => 0,
+        'Moose'             => '2.1213',
         'Path::Class'       => 0,
         'File::Temp'        => 0.19,
     },

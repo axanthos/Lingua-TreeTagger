@@ -35,11 +35,11 @@ our $_tokenizer_prog_path
 # purposes than part-of-speech tagging. Note that option '-quiet' is always
 # selected.
 
-enum 'treetagger_option' => qw(
+enum 'treetagger_option' => [qw(
     -token              -lemma              -sgml               -ignore-prefix
     -no-unknown         -cap-heuristics     -hyphen-heuristics  -pt-with-lemma
     -pt-with-prob       -base
-);
+)];
 
 
 #===============================================================================
