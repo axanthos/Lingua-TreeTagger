@@ -25,3 +25,7 @@ Revision history for TreeTagger
         Applied a patch provided by Alberto Simoes (thanks again!) in order
         for the module's Build.PL to detect files where
         Lingua::TreeTagger::Installer puts them.
+
+0.07    2014-11-03
+        Fixed TreeTagger.pm to match Moose's new enum definition syntax,
+        as kindly suggested by Zoffix Znet and Hiroyuki Yamanaka.

@@ -9,7 +9,7 @@ use Carp;
 use Lingua::TreeTagger::TaggedText;
 use Lingua::TreeTagger::ConfigData;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 
 #===============================================================================
@@ -35,11 +35,11 @@ our $_tokenizer_prog_path
 # purposes than part-of-speech tagging. Note that option '-quiet' is always
 # selected.
 
-enum 'treetagger_option' => qw(
+enum 'treetagger_option' => [ qw(
     -token              -lemma              -sgml               -ignore-prefix
     -no-unknown         -cap-heuristics     -hyphen-heuristics  -pt-with-lemma
     -pt-with-prob       -base
-);
+) ];
 
 
 #===============================================================================
@@ -386,6 +386,8 @@ __PACKAGE__->meta->make_immutable;
 __END__
 
 
+=encoding ISO8859-1
+
 =head1 NAME
 
 Lingua::TreeTagger - Using TreeTagger from Perl
@@ -584,8 +586,8 @@ Installing and using this module requires a working version of TreeTagger
 (available at L<http://www.ims.uni-stuttgart.de/projekte/corplex/TreeTagger>).
 Windows users are advised to follow the installation instructions given on page
 L<http://www.smo.uhi.ac.uk/~oduibhin/oideasra/interfaces/winttinterface.htm>.
-There is also a L<Lingua::TreeTagger::Installer> script created by Alberto
-Manuel Brandao Simoes (this distribution is not directly related to the present
+There is also a L<Lingua::TreeTagger::Installer> script created by Alberto 
+Simões (this distribution is not directly related to the present
 one).
 
 The particular set of TreeTagger parameter files installed on the user's
@@ -640,11 +642,13 @@ channel between this module and the TreeTagger executable.
 
 =head1 ACKNOWLEDGEMENTS
 
-The author is grateful to Alberto Manuel Brandão Simões, Christelle Cocco,
-Yannis Haralambous, and Andrew Zappella for their useful feedback.
+The author is grateful to Alberto Simões, Christelle Cocco, Yannis
+Haralambous, and Andrew Zappella for their useful feedback.
 
 Also a warm thank you to Tara Andrews who provided a patch for adding unicode
-support to the module.
+support to the module, as well as Zoffix Znet and Hiroyuki Yamanaka, who
+provided patches for fixing a bug related to a modification of the Moose
+dependency.
 
 =head1 AUTHOR
 
