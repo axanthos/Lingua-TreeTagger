@@ -85,6 +85,24 @@ like(
     'method tag_file correctly croaks when argument is not a valid file'
 );
 
+my $test_file_handle = File::Temp->new();
+print $test_file_handle 'Yet another sample text.';
+close $test_file_handle;
+
+my $tagged_text = $tagger->tag_file( $test_file_handle->filename() );
+
+cmp_ok(
+       ref( $tagged_text ), 'eq', 'Lingua::TreeTagger::TaggedText',
+       'method tag_file outputs a Lingua::TreeTagger::TaggedText object...'
+      );
+
+ok(
+   $tagged_text->length() == 5,
+   '... which has the right number of tokens'
+  );
+
+
+
 sub my_tokenizer {
     my ( $original_text_ref ) = @_;
     my @tokens = split /\s+/, $$original_text_ref;
@@ -92,37 +110,7 @@ sub my_tokenizer {
     return \$tokenized_text;
 }
 
-my $tagger_with_custom_tokenizer = Lingua::TreeTagger->new(
-    'language'  => 'english',
-    'tokenizer' => \&my_tokenizer,
-);
 
-{
-    my $test_file_handle = File::Temp->new();
-    print $test_file_handle 'Yet another sample text.';
-    close $test_file_handle;
-
-    my $tagged_text = $tagger->tag_file( $test_file_handle->filename() );
-
-    cmp_ok(
-        ref( $tagged_text ), 'eq', 'Lingua::TreeTagger::TaggedText',
-        'method tag_file outputs a Lingua::TreeTagger::TaggedText object...'
-    );
-
-    ok(
-        $tagged_text->length() == 5,
-        '... which has the right number of tokens'
-    );
-
-    my $custom_tagged_text = $tagger_with_custom_tokenizer->tag_file(
-        $test_file_handle->filename()
-    );
-
-    ok(
-        $custom_tagged_text->length() == 4,
-        'method tag_file works fine with custom tokenizer'
-    );
-}
 
 eval {
     $tagger->tag_text();
@@ -146,11 +134,32 @@ ok(
     '... which has the right number of tokens'
 );
 
-my $custom_tagged_text
-    = $tagger_with_custom_tokenizer->tag_text( \q{Yet another sample text.} );
 
-ok(
-    $custom_tagged_text->length() == 4,
-    'method tag_text works fine with custom tokenizer'
-);
+my $tagger_with_custom_tokenizer = eval {
+    Lingua::TreeTagger->new(
+                            'language'  => 'english',
+                            'tokenizer' => \&my_tokenizer,
+                           )
+  };
+
+SKIP: {
+    skip "No english parameter file", 2 if $@ =~ /no parameter file for language english/;
+
+    my $custom_tagged_text = $tagger_with_custom_tokenizer->tag_file(
+        $test_file_handle->filename()
+    );
+
+    ok(
+        $custom_tagged_text->length() == 4,
+        'method tag_file works fine with custom tokenizer'
+    );
+
+    my $custom_tagged_text
+      = $tagger_with_custom_tokenizer->tag_text( \q{Yet another sample text.} );
+
+    ok(
+       $custom_tagged_text->length() == 4,
+       'method tag_text works fine with custom tokenizer'
+      );
+}
 

@@ -421,7 +421,7 @@ This documentation refers to Lingua::TreeTagger version 0.04.
 
     # ... or in XML format.
     print $tagged_text->as_XML();
-    
+
     # Token objects may be accessed directly for more specific purposes.
     foreach my $token ( @{ $tagged_text->sequence() } ) {
 
@@ -586,9 +586,14 @@ Installing and using this module requires a working version of TreeTagger
 (available at L<http://www.ims.uni-stuttgart.de/projekte/corplex/TreeTagger>).
 Windows users are advised to follow the installation instructions given on page
 L<http://www.smo.uhi.ac.uk/~oduibhin/oideasra/interfaces/winttinterface.htm>.
+<<<<<<< HEAD
 There is also a L<Lingua::TreeTagger::Installer> script created by Alberto 
 Simões (this distribution is not directly related to the present
 one).
+=======
+There is also a L<Lingua::TreeTagger::Installer> script created by Alberto
+Simões (this distribution is not directly related to the present one).
+>>>>>>> 127755d99e325d914a35c9acfe76518847dbd501
 
 The particular set of TreeTagger parameter files installed on the user's
 machine determines the set of languages that can by used by this module. Note
