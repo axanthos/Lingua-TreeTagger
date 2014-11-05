@@ -9,7 +9,7 @@ use Carp;
 use Lingua::TreeTagger::TaggedText;
 use Lingua::TreeTagger::ConfigData;
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 
 #===============================================================================
@@ -661,7 +661,7 @@ Aris Xanthos  (aris.xanthos@unil.ch)
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2010-2012 Aris Xanthos (aris.xanthos@unil.ch).
+Copyright (c) 2010-2014 Aris Xanthos (aris.xanthos@unil.ch).
 
 This program is released under the GPL license (see
 L<http://www.gnu.org/licenses/gpl.html>).
