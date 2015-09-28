@@ -34,7 +34,7 @@ like(
 
 
 my $tagger = eval { Lingua::TreeTagger->new(
-    'language' => 'english',
+    'language' => 'english-utf8',
 ) };
 
 SKIP: {
@@ -126,9 +126,9 @@ SKIP: {
             } ),
             'eq',
                 qq{<lines>\n}
-              . qq{<foo bar="original1" baz="lemma1">tag1</foo>\n}
-              . qq{<foo bar="original2" baz="lemma2">tag2</foo>\n}
-              . qq{<foo bar="original3" baz="lemma3">tag3</foo>\n}
+              . qq{<foo baz="lemma1" bar="original1">tag1</foo>\n}
+              . qq{<foo baz="lemma2" bar="original2">tag2</foo>\n}
+              . qq{<foo baz="lemma3" bar="original3">tag3</foo>\n}
               . qq{</lines>\n},
             'method as_XML works fine with custom settings'
         );
