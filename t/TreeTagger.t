@@ -137,7 +137,7 @@ ok(
 
 my $tagger_with_custom_tokenizer = eval {
     Lingua::TreeTagger->new(
-                            'language'  => 'english',
+                            'language'  => 'english-utf8',
                             'tokenizer' => \&my_tokenizer,
                            )
   };

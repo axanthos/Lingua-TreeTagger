@@ -290,7 +290,7 @@ sub as_XML {
             $string .= '<' . $element;
 
             REQUESTED_ATTRIBUTES:
-            foreach my $requested_attribute (keys %requested_attributes) {
+            foreach my $requested_attribute (sort keys %requested_attributes) {
 
                 my $attribute_value =
                     $requested_attribute eq 'original' ? $token->original()
