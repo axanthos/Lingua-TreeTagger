@@ -1,4 +1,4 @@
-Lingua-TreeTagger version 0.07
+Lingua-TreeTagger version 0.08
 
 This module provides a simple object-oriented interface to the TreeTagger
 part-of-speech tagger created by Helmut Schmid.
@@ -7,7 +7,7 @@ Installing and using this module requires a working version of TreeTagger
 (available at http://www.ims.uni-stuttgart.de/projekte/corplex/TreeTagger).
 Windows users are advised to follow the installation instructions given on page
 http://www.smo.uhi.ac.uk/~oduibhin/oideasra/interfaces/winttinterface.htm.
-There is also a Lingua::TreeTagger::Installer script created by Alberto
+There is also a Lingua::TreeTagger::Installer module created by Alberto
 Manuel Brandao Simoes.
 
 INSTALLATION

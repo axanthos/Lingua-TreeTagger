@@ -29,3 +29,9 @@ Revision history for TreeTagger
 0.07    2014-11-03
         Fixed TreeTagger.pm to match Moose's new enum definition syntax,
         as kindly suggested by Zoffix Znet and Hiroyuki Yamanaka.
+
+0.08    2015-11-04
+        Modified test files to reflect the fact that utf8 parameters are now
+        standard, made xml serialization more robust, fixed issues in tests
+        and POD (patches kindly contributed by Alberto Simoes).
+        

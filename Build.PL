@@ -8,10 +8,11 @@ my $builder = Module::Build->new(
     module_name             => 'Lingua::TreeTagger',
     license                 => 'gpl',
     dist_author             => q{Aris Xanthos <aris.xanthos@unil.ch>},
-    dist_version            => '0.07',
+    dist_version            => '0.08',
     configure_requires => {
         'File::Spec'        => 0,
         'File::Which'       => 0,
+        'Module::Build'     => 0.42
     },
     build_requires => {
         'Test::More'        => 0,
