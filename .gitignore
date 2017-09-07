@@ -1,0 +1,6 @@
+blib/*
+_build/*
+Build
+Build.bat
+*.gz
+MYMETA*
