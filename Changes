@@ -39,3 +39,6 @@ Revision history for TreeTagger
         Removed old code that required at least one non-ut8 parameter file to 
         install.
         
+0.10    2017-09-07
+        Fix an issue with pm files version numbers.
+        

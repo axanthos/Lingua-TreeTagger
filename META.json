@@ -39,11 +39,11 @@
    "provides" : {
       "Lingua::TreeTagger" : {
          "file" : "lib/Lingua/TreeTagger.pm",
-         "version" : "0.06"
+         "version" : "0.09"
       },
       "Lingua::TreeTagger::TaggedText" : {
          "file" : "lib/Lingua/TreeTagger/TaggedText.pm",
-         "version" : "0.01"
+         "version" : "0.02"
       },
       "Lingua::TreeTagger::Token" : {
          "file" : "lib/Lingua/TreeTagger/Token.pm",
@@ -56,5 +56,5 @@
          "http://opensource.org/licenses/gpl-license.php"
       ]
    },
-   "version" : "0.09"
+   "version" : "0.10"
 }

@@ -6,7 +6,7 @@ use List::Util qw( first );
 
 use Lingua::TreeTagger::Token;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 
 #===============================================================================
