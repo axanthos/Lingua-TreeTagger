@@ -100,6 +100,16 @@ has '_abbreviation_file' => (
       }
 );
 
+has '_lexicon_file' => (
+      is        => 'ro',
+      isa       => 'Path::Class::File',
+      lazy      => 1,
+      default   => sub {
+          my $self = shift;
+          my $lexiconfile = $self->language() . '-lexicon.txt';
+          return file( $_treetagger_lib_path, $lexiconfile );
+      }
+);
 
 #===============================================================================
 # Public instance methods.
@@ -301,7 +311,7 @@ sub _tag_with_default_tokenizer {
     # Check if file exists...
     croak "File $path not found" if ! -e "$path";
 
-    my ( $language_option, $abbreviation_file_option ) = ( q{}, q{} );
+    my ( $language_option, $abbreviation_file_option, $lexicon_file_option ) = ( q{}, q{}, q{} );
 
     # If there are special rules for clitics in this language...
     if (
@@ -321,6 +331,14 @@ sub _tag_with_default_tokenizer {
             q{-a } . _quote( $self->_abbreviation_file() );
     }
 
+    # If there is a lexicon file
+    if ( -e $self->_lexicon_file() ) {
+
+        # Set the tokenizer's lexicon file option.
+        $lexicon_file_option =
+            q{-lex } . _quote( $self->_lexicon_file() );
+    }
+
     # Push command elements into a list to be joined later.
     my @command_array = (
         'perl',
@@ -331,6 +349,7 @@ sub _tag_with_default_tokenizer {
         '|',
         _quote( $_treetagger_prog_path ),
         @{ $self->options() },
+        $lexicon_file_option,
         '-quiet',
         _quote( $self->_parameter_file() ),
     );
@@ -359,10 +378,20 @@ sub _tag_with_custom_tokenizer {
     my $temp_file_handle   = File::Temp->new();
     print $temp_file_handle $$tokenized_text_ref;
 
+    # If there is a lexicon file
+    my $lexicon_file_option = q{};
+    if ( -e $self->_lexicon_file() ) {
+
+        # Set the tokenizer's lexicon file option.
+        $lexicon_file_option =
+            q{-lex } . _quote( $self->_lexicon_file() );
+    }
+
     # Push command elements into a list to be joined later.
     my @command_array = (
         _quote( $_treetagger_prog_path ),
         @{ $self->options() },
+        $lexicon_file_option,
         '-quiet',
         _quote( $self->_parameter_file() ),
         _quote( $temp_file_handle->filename() ),
@@ -600,6 +629,13 @@ TreeTagger's base directory (e.g. C<C:\Program Files\TreeTagger>), which is
 used for testing and saved for later use in module
 Lingua::TreeTagger::ConfigData.
 
+A lexicon file can be put inside the TreeTagger's base directory, in the C<lib>
+sub-directory for predefined tagging values. 
+The lexicon file is a space separated file with each line consisting of three
+fields : word, part-of-speech and lemma. 
+The filename must be formatted C<$LANGUAGE_NAME-lexicon.txt>.
+For example, for french, it would be C<french-lexicon.txt>.
+
 =head1 DEPENDENCIES
 
 This is the base module of the Lingua::TreeTagger distribution. It uses modules
@@ -642,7 +678,7 @@ channel between this module and the TreeTagger executable.
 
 =head1 ACKNOWLEDGEMENTS
 
-The author is grateful to Alberto Simões, Christelle Cocco, Yannis
+The author is grateful to Alberto Simï¿½es, Christelle Cocco, Yannis
 Haralambous, and Andrew Zappella for their useful feedback.
 
 Also a warm thank you to Tara Andrews who provided a patch for adding unicode
