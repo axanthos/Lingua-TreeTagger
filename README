@@ -1,4 +1,4 @@
-Lingua-TreeTagger version 0.09
+Lingua-TreeTagger version 0.11
 
 This module provides a simple object-oriented interface to the TreeTagger
 part-of-speech tagger created by Helmut Schmid.

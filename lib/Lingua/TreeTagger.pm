@@ -9,7 +9,7 @@ use Carp;
 use Lingua::TreeTagger::TaggedText;
 use Lingua::TreeTagger::ConfigData;
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 
 #===============================================================================
@@ -612,7 +612,7 @@ argument corresponding to a file that does not exist.
 =head1 CONFIGURATION AND ENVIRONMENT
 
 Installing and using this module requires a working version of TreeTagger
-(available at L<http://www.ims.uni-stuttgart.de/projekte/corplex/TreeTagger>).
+(available at L<https://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/>).
 Windows users are advised to follow the installation instructions given on page
 L<http://www.smo.uhi.ac.uk/~oduibhin/oideasra/interfaces/winttinterface.htm>.
 There is also a L<Lingua::TreeTagger::Installer> module created by Alberto 
@@ -678,13 +678,13 @@ channel between this module and the TreeTagger executable.
 
 =head1 ACKNOWLEDGEMENTS
 
-The author is grateful to Alberto Sim�es, Christelle Cocco, Yannis
+The author is grateful to Alberto Simões, Christelle Cocco, Yannis
 Haralambous, and Andrew Zappella for their useful feedback.
 
 Also a warm thank you to Tara Andrews who provided a patch for adding unicode
 support to the module, as well as Zoffix Znet and Hiroyuki Yamanaka, who
 provided patches for fixing a bug related to a modification of the Moose
-dependency.
+dependency, and Tojo Rakotoarison, who contributed a patch for lexicon support.
 
 =head1 AUTHOR
 
@@ -692,7 +692,7 @@ Aris Xanthos  (aris.xanthos@unil.ch)
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (c) 2010-2017 Aris Xanthos (aris.xanthos@unil.ch).
+Copyright (c) 2010-2021 Aris Xanthos (aris.xanthos@unil.ch).
 
 This program is released under the GPL license (see
 L<http://www.gnu.org/licenses/gpl.html>).
